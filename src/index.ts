@@ -4,17 +4,36 @@ import cors from 'cors';
 import { snakeCase } from 'lodash';
 import jwt from 'express-jwt';
 import jwks from 'jwks-rsa';
-
+import { graphqlUploadExpress } from 'graphql-upload';
 import schema from './schema';
 import initClients from './utils/init-clients';
-import { graphqlUploadExpress } from 'graphql-upload';
+import getCurrentVersion from './getCurrentVersion';
 
 const { ApolloServer } = require('apollo-server-express');
 initClients().then(({ pgClient, cloudinaryClient }) => {
     const app = express();
 
-    app.use('/status', (req, res) => {
-        res.sendStatus(200);
+    // kadangi isorinis servisas async
+    app.use('/status', async (req, res) => {
+        let dbOk;
+        let cloudinaryOk;
+        let version;
+        try{
+            dbOk = !!( await pgClient.query({
+                text: 'SELECT true as ok'
+            })).rows[0].ok;
+            cloudinaryOk = await cloudinaryClient.isOk();
+            version = await getCurrentVersion();
+        } catch (err) {
+            console.log(err)
+        }
+
+        res.send({
+            database: dbOk ? 'ok' : 'not ok',
+            cloudinary: cloudinaryOk ? 'ok' : 'not ok',
+            status: dbOk && cloudinaryOk ? 'ok' : 'not ok',
+            version,
+        })
     });
 
     const snakeCaseFieldResolver = (
