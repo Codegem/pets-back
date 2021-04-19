@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  gis-backend:
+    build:
+      context: .
+    ports:
+      - 8081:8081
+      - 9229:9229
+    environment:
+      - SERVER_PORT=8080
+    volumes:
+      - ./src:/usr/src/app
+      - ./package.json:/usr/src/package.json
+      - ./tsconfig.json:/usr/src/tsconfig.json
+      - ./node_modules:/usr/src/node_modules
+      - ./nodemon.json:/usr/src/nodemon.json
+    command: npm run debug

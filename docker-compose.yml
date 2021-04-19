@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  gis-backend:
+    build:
+      context: .
+    ports:
+      - 8081:8081
+    environment:
+      - SERVER_PORT=8080
+      - AUTH0_DOMAIN=$AUTH0_DOMAIN
+      - AUTH0_AUDIENCE=$AUTH0_AUDIENCE
+    env_file:
+      - database.env
+      - common.env
+    volumes:
+      - ./src:/usr/app/src
+      - ./test:/usr/app/test
+      - ./package.json:/usr/app/package.json
+      - ./tsconfig.json:/usr/app/tsconfig.json
+      - /usr/app/node_modules
+      - ./nodemon.json:/usr/app/nodemon.json
+    command: npm run dev --url=$AUTH_TOKEN_URL --client_id=$AUTH_CLIENT_ID --client_secret=$AUTH_CLIENT_SECRET --audience=$AUTH_AUDIENCE --grant_type=$AUTH_GRANT_TYPE
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      database.env
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+      - database-data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  database-data:
