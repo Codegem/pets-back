@@ -10,13 +10,9 @@ import { version } from '../package.json';
 
 import schema from './schema';
 import initClients from './utils/init-clients';
-import { graphqlUploadExpress } from 'graphql-upload';
 
 const { ApolloServer } = require('apollo-server-express');
-<<<<<<< HEAD
-=======
 
->>>>>>> 9eeb537630311ff29454c13a9462fc3909dfc4c3
 initClients().then(({ pgClient, cloudinaryClient }) => {
     const app = express();
 
@@ -73,12 +69,6 @@ initClients().then(({ pgClient, cloudinaryClient }) => {
         app.use('/graphql', jwtCheck);
     }
 
-<<<<<<< HEAD
-    app.use('/graphql', graphqlUploadExpress({
-        maxFileSize: 10000000, // 10 MB
-        maxFiles: 20,
-      }));
-=======
     app.use(
         '/graphql',
         graphqlUploadExpress({
@@ -86,7 +76,6 @@ initClients().then(({ pgClient, cloudinaryClient }) => {
             maxFiles: 20,
         })
     );
->>>>>>> 9eeb537630311ff29454c13a9462fc3909dfc4c3
 
     const server = new ApolloServer({
         uploads: false,
@@ -102,11 +91,7 @@ initClients().then(({ pgClient, cloudinaryClient }) => {
 
     // process.env.PORT needed for heroku to bind to the correct port
     const PORT = process.env.PORT || 8081;
-<<<<<<< HEAD
-    app.listen(PORT, () => {
-=======
     httpServer.listen(PORT, () => {
->>>>>>> 9eeb537630311ff29454c13a9462fc3909dfc4c3
         // eslint-disable-next-line no-console
         console.log(`Go to http://localhost:${PORT}/graphql to run queries!`);
     });

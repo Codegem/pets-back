@@ -15,10 +15,7 @@ import organizationResolvers from './resolvers/organization';
 import userResolvers from './resolvers/user';
 import eventResolvers from './resolvers/event';
 import uploadResolver from './resolvers/upload';
-<<<<<<< HEAD
-=======
 import chipCompanyResolvers from './resolvers/chipCompany';
->>>>>>> 9eeb537630311ff29454c13a9462fc3909dfc4c3
 
 const schema = loadSchemaSync('src/schema/typeDefs/*.graphql', {
     loaders: [new GraphQLFileLoader()],
@@ -36,10 +33,7 @@ const schema = loadSchemaSync('src/schema/typeDefs/*.graphql', {
         userResolvers,
         eventResolvers,
         uploadResolver,
-<<<<<<< HEAD
-=======
         chipCompanyResolvers,
->>>>>>> 9eeb537630311ff29454c13a9462fc3909dfc4c3
     ),
 });
 

@@ -104,10 +104,7 @@ describe('animal mutations tests', () => {
                     console.log(res.body);
                     return done(err);
                 }
-<<<<<<< HEAD
-=======
                 // eslint-disable-next-line prefer-destructuring
->>>>>>> 9eeb537630311ff29454c13a9462fc3909dfc4c3
                 animalId = res.body.data[mutation].id;
                 expect(res.body.data[mutation]).to.deep.include(answer);
                 return done();
