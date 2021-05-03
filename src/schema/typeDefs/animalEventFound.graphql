@@ -11,3 +11,24 @@ type FoundEvent {
     animalId: Int!
     comments: String
 }
+
+input CreateFoundEventInput {
+    "Street number (255 characters max)"
+    street: String!
+    "House Number "
+    houseNo: String
+    "municipalityId "
+    municipalityId: Int!
+    "date (UTC timestamp)"
+    date: Date
+    "animalId"
+    animalId: Int!
+    "comments of Events" 
+    comments: String
+
+}
+
+extend type Mutation {
+    "Create Found Event"
+    createFoundEvent(input: CreateFoundEventInput!): FoundEvent
+}
